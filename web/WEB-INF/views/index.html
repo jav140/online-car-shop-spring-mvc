@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="fragment.html :: header('Home Page')">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css"
+          rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+</head>
+<body>
+<header th:include="fragment.html :: nav-bar"></header>
+<table class="table">
+    <thead>
+    <tr>
+        <th scope="col">ID</th>
+        <th scope="col">URL</th>
+        <th scope="col">Description</th>
+        <th scope="col">Copy</th>
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="url,count : ${urls}">
+        <tr>
+            <td th:text="${count.count}"></td>
+            <td>
+                <a th:href="@{'/go/'+${url.shortenedUrl}}" th:text="${url.originalUrl}"></a>
+            </td>
+            <td th:text="${url.description}"></td>
+            <td th:text="${url.shortenedUrl}"></td>
+            <td>
+                <label for="myInput"></label><input hidden th:value="${url.shortenedUrl}" id="myInput"/>
+                <button type="button" class="btn btn-info" onclick="myFunction()">Copy</button>
+            </td>
+            <script>
+                function myFunction() {
+                    /* Get the text field */
+                    var copyText = document.getElementById("myInput");
+
+                    /* Select the text field */
+                    copyText.select();
+                    copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+                    /* Copy the text inside the text field */
+                    navigator.clipboard.writeText(copyText.value);
+
+                    /* Alert the copied text */
+                    alert("Copied the text: " + copyText.value);
+                }
+            </script>
+
+
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+</body>
+</html>
